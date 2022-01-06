@@ -1,30 +1,46 @@
 package com.emprestimo.entidades;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name  = "tb_endereco")
 public class Endereco {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEndereco;
+
     private String uf;
     private String cidade;
     private String bairro;
     private String rua;
     private int numero;
-    private Pessoa pessoa;
 
+    @ManyToOne
+    @JoinColumn(name = "idPessoa")
+    private Pessoa pessoaEndereco;
 
+    /**
+     * Construtor sem argumentos*/
     public Endereco() {
-
     }
 
-    public Endereco(Long idEndereco, String uf, String cidade, String bairro, String rua, int numero, Pessoa pessoa) {
+    /**
+     * Construtor com argumentos*/
+    public Endereco(Long idEndereco, String uf, String cidade, String bairro, String rua, int numero, Pessoa pessoaEndereco) {
         this.idEndereco = idEndereco;
         this.uf = uf;
         this.cidade = cidade;
         this.bairro = bairro;
         this.rua = rua;
         this.numero = numero;
-        this.pessoa = pessoa;
+        this.pessoaEndereco = pessoaEndereco;
     }
+
+    /**
+     * Construtor com argumentos*/
+
 
     public Long getIdEndereco() {
         return idEndereco;
@@ -74,12 +90,12 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Pessoa getPessoaEndereco() {
+        return pessoaEndereco;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setPessoaEndereco(Pessoa pessoaEndereco) {
+        this.pessoaEndereco = pessoaEndereco;
     }
 
     @Override
@@ -87,12 +103,15 @@ public class Endereco {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Endereco endereco = (Endereco) o;
-        return numero == endereco.numero && Objects.equals(idEndereco, endereco.idEndereco) && Objects.equals(uf, endereco.uf) && Objects.equals(cidade, endereco.cidade) && Objects.equals(bairro, endereco.bairro) && Objects.equals(rua, endereco.rua) && Objects.equals(pessoa, endereco.pessoa);
+        return numero == endereco.numero && Objects.equals(idEndereco, endereco.idEndereco)
+                && Objects.equals(uf, endereco.uf) && Objects.equals(cidade, endereco.cidade)
+                && Objects.equals(bairro, endereco.bairro) && Objects.equals(rua, endereco.rua)
+                && Objects.equals(pessoaEndereco, endereco.pessoaEndereco);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idEndereco, uf, cidade, bairro, rua, numero, pessoa);
+        return Objects.hash(idEndereco, uf, cidade, bairro, rua, numero, pessoaEndereco);
     }
 
     @Override
@@ -104,7 +123,7 @@ public class Endereco {
                 ", bairro='" + bairro + '\'' +
                 ", rua='" + rua + '\'' +
                 ", numero=" + numero +
-                ", pessoa=" + pessoa +
+                ", pessoa=" + pessoaEndereco +
                 '}';
     }
 }
